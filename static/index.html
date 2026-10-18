@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Optimize for Web</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Optimize for Web</h1>
+      <p>Turn large photos and 4K videos into smaller files you can upload to a website. Processing stays on this computer.</p>
+      <p id="capability" class="status">Checking encoders…</p>
+    </header>
+
+    <section class="panel">
+      <div class="button-row">
+        <button type="button" id="select-files">Select files</button>
+        <button type="button" id="select-folder">Select folder</button>
+      </div>
+      <div id="dropzone">
+        <p><strong>Drop files or folders here</strong></p>
+        <p class="hint">Dropping copies files into a temporary folder. Select files reads the originals in place, which is better for large videos.</p>
+        <label class="upload-label">
+          Or upload copies
+          <input id="file-input" type="file" multiple accept="image/*,video/*,.heic,.heif,.mkv,.avi,.mov,.tif,.tiff,.m4v">
+        </label>
+      </div>
+      <details>
+        <summary>Add by path</summary>
+        <label for="path-input">One file or folder path per line</label>
+        <textarea id="path-input" rows="3" spellcheck="false" placeholder="C:\Photos\vacation.jpg"></textarea>
+        <button type="button" id="add-paths">Add paths</button>
+      </details>
+      <p id="notice" class="notice" hidden></p>
+    </section>
+
+    <section class="panel">
+      <h2>Files</h2>
+      <div id="overall" hidden>
+        <progress id="overall-bar" max="100" value="0"></progress>
+        <p id="overall-label" class="hint"></p>
+      </div>
+      <div id="file-list"></div>
+    </section>
+
+    <section class="panel" id="settings">
+      <h2>Settings</h2>
+      <fieldset id="image-settings">
+        <legend>Images</legend>
+        <label>Output format
+          <select id="image-format">
+            <option value="webp" selected>WebP</option>
+            <option value="avif">AVIF</option>
+            <option value="jpeg">JPEG</option>
+          </select>
+        </label>
+        <label>Quality <span id="quality-value">82</span>
+          <input id="quality" type="range" min="1" max="100" value="82">
+        </label>
+        <div class="pair">
+          <label>Maximum width
+            <input id="max-width" type="number" min="1" max="20000" value="2560">
+          </label>
+          <label>Maximum height
+            <input id="max-height" type="number" min="1" max="20000" value="2560">
+          </label>
+        </div>
+        <label class="check"><input id="keep-dimensions" type="checkbox"> Keep original dimensions</label>
+        <label class="check"><input id="preserve-metadata" type="checkbox"> Preserve metadata (EXIF, GPS, camera info)</label>
+        <p class="hint">Color profiles are kept when the encoder allows it. Other metadata is removed unless you check the box above.</p>
+      </fieldset>
+
+      <fieldset id="video-settings">
+        <legend>Videos</legend>
+        <label>Output format
+          <select id="video-format">
+            <option value="mp4" selected>MP4 (H.264 + AAC)</option>
+            <option value="webm">WebM (VP9 + Opus)</option>
+          </select>
+        </label>
+        <label>Quality preset
+          <select id="video-quality">
+            <option value="high">High quality</option>
+            <option value="balanced" selected>Balanced</option>
+            <option value="small">Smaller file</option>
+          </select>
+        </label>
+        <p id="preset-help" class="hint"></p>
+        <label>Encoder speed
+          <select id="encoder-preset">
+            <option value="ultrafast">Ultrafast</option>
+            <option value="superfast">Superfast</option>
+            <option value="veryfast">Veryfast</option>
+            <option value="faster">Faster</option>
+            <option value="fast">Fast</option>
+            <option value="medium" selected>Medium</option>
+            <option value="slow">Slow</option>
+            <option value="slower">Slower</option>
+            <option value="veryslow">Veryslow</option>
+          </select>
+        </label>
+        <label>Maximum resolution
+          <select id="max-resolution">
+            <option value="original">Original resolution</option>
+            <option value="2160">3840 × 2160 (4K)</option>
+            <option value="1440">2560 × 1440 (1440p)</option>
+            <option value="1080" selected>1920 × 1080 (1080p)</option>
+            <option value="720">1280 × 720 (720p)</option>
+          </select>
+        </label>
+        <label class="check"><input id="remove-audio" type="checkbox"> Remove audio</label>
+        <label class="check"><input id="skip-suitable" type="checkbox" checked> Skip files that are already suitable</label>
+        <p class="hint">A file is skipped when it is already in the selected format, already fits the size limit, and is already reasonably compressed. Skipped files are left where they are. Uncheck this to force a new encode. MP4 output uses faststart so playback can begin before the download finishes.</p>
+      </fieldset>
+
+      <fieldset id="output-settings">
+        <legend>Output</legend>
+        <label>Folder
+          <input id="output-dir" type="text" spellcheck="false">
+        </label>
+        <button type="button" id="browse-output">Browse</button>
+        <p class="hint">Originals are never overwritten. If a name is already used, a number is added.</p>
+      </fieldset>
+    </section>
+
+    <section class="panel">
+      <div class="button-row">
+        <button type="button" id="optimize" class="primary" disabled>Optimize Files</button>
+        <button type="button" id="cancel" hidden>Cancel</button>
+        <button type="button" id="open-folder" hidden>Open output folder</button>
+        <button type="button" id="another" hidden>Optimize another batch</button>
+      </div>
+    </section>
+
+    <section id="summary" class="panel" hidden>
+      <h2>Results</h2>
+      <p id="summary-text"></p>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

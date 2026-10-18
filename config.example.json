@@ -1,0 +1,16 @@
+{
+  "_comment": "Optional. Copy this file to config.json to change the defaults shown in the app.",
+  "image_format": "webp",
+  "image_quality": 82,
+  "max_width": 2560,
+  "max_height": 2560,
+  "keep_image_dimensions": false,
+  "preserve_metadata": false,
+  "video_format": "mp4",
+  "video_quality": "balanced",
+  "encoder_preset": "medium",
+  "max_resolution": "1080",
+  "remove_audio": false,
+  "skip_suitable": true,
+  "output_dir": null
+}
